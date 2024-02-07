@@ -70,6 +70,7 @@ func manageData( _ data: [String]){
     
     print(studentData)
 }
+print("Ok")
 
 
 
