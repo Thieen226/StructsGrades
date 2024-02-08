@@ -36,7 +36,7 @@ catch{
 
 func manageData( _ data: [String]){
     //create variables to store different data
-    var fullName = data[0]
+    let fullName = data[0]
     var grades: [String] = []
     var averageGrades: Double = 0.0
     var numOfAssignment: Double = 0.0
@@ -67,12 +67,87 @@ func manageData( _ data: [String]){
     
     //append all the student's data for each student
     studentData.append(tempStudent)
-    
-    print(studentData)
 }
-print("Ok")
 
+var disMenu : Bool = true
 
+while disMenu{
+    print("Welcome to the Grade Manager! \n"
+        + "What would you like to do? (Enter the number): \n"
+        + "1. Display grade of a single student \n"
+        + "2. Display all grades for a student \n"
+        + "3. Display all grades for ALL students \n"
+        + "4. Find the average grade of the class \n"
+        + "5. Find the average grade of an assignment \n"
+        + "6. Find the lowest grade in the class \n"
+        + "7. Find the highest grade of the class \n"
+        + "8. Filter students by grade range \n"
+        + "9. Quit")
+    
+    if let userInput = readLine(){
+        switch userInput{
+        case "1":
+            disStudentGrades(showAverage: true)
+            
+        case "2":
+            disStudentGrades(showAverage: false)
+            
+        case "3":
+            allStudentsGrades()
+            
+        case "4":
+            averageClassGrade()
+            
+        case "5":
+            assignmentAverage()
+            
+        case "6":
+            lowestGrade()
+            
+        case "7":
+            highestGrade()
+            
+        case "8":
+            filterByRange()
+            
+        case "9":
+            print("Have a great rest of your day!")
+            
+            //when the user choose option 9, stop showing menu options
+            disMenu = false
+            
+        default:
+            print("Enter a appropriate option!")
+            disMenu = true
+        }
+    }
+}
+func disStudentGrades(showAverage: Bool){
+    
+}
 
+func allStudentsGrades(){
+    
+}
+
+func averageClassGrade(){
+    
+}
+
+func assignmentAverage(){
+    
+}
+
+func lowestGrade(){
+    
+}
+
+func highestGrade(){
+    
+}
+
+func filterByRange(){
+    
+}
 
 
