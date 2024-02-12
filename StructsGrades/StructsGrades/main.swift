@@ -15,6 +15,7 @@ struct Students{
     var averageGrades: Double
 }
 
+//variable to store Students struct in every element in the array
 var studentData : [Students] = []
 
 do{
@@ -69,6 +70,7 @@ func manageData( _ data: [String]){
     studentData.append(tempStudent)
 }
 
+//create variable
 var disMenu : Bool = true
 
 while disMenu{
@@ -82,7 +84,8 @@ while disMenu{
         + "6. Find the lowest grade in the class \n"
         + "7. Find the highest grade of the class \n"
         + "8. Filter students by grade range \n"
-        + "9. Quit")
+        + "9. Change grade of specific assignment \n"
+        + "10. Quit")
     
     if let userInput = readLine(){
         switch userInput{
@@ -111,6 +114,9 @@ while disMenu{
             filterByRange()
             
         case "9":
+            changeGrade()
+            
+        case "10":
             print("Have a great rest of your day!")
             
             //when the user choose option 9, stop showing menu options
@@ -123,15 +129,45 @@ while disMenu{
     }
 }
 func disStudentGrades(showAverage: Bool){
-    
+    print("Which student would you like to choose?")
+    if let nameInput = readLine(){
+        
+        //use for-in loop to access each student's name in studentData
+        for studentName in studentData.indices{
+            if nameInput.lowercased() == studentData[studentName].name.lowercased(){
+                if showAverage{
+                    print("\(nameInput.capitalized)'s grades in this class is \(studentData[studentName].averageGrades)")
+                }
+                else{
+                    //separate each grade with a comma
+                    let showAllGrades = studentData[studentName].grades.joined(separator: ", ")
+                    print("\(nameInput.capitalized)'s grades in this class are \(showAllGrades)")
+                }
+                //return to go back the top of the function
+                return
+            }
+        }
+    }
+    print("Student not found!")
 }
 
 func allStudentsGrades(){
-    
+    for student in studentData.indices{
+        let allNames = studentData[student].name
+        let allGrades = studentData[student].grades.joined(separator: ", ")
+        print("\(allNames) grades are \(allGrades)")
+    }
 }
 
 func averageClassGrade(){
+    var numOfAssn : Int = 0
+    for student in studentData.indices{
+        let allGrades = studentData[student].averageGrades
+        numOfAssn += 1
+        let averageClass = allGrades/numOfAssn
+    }
     
+    print("The class average is: \(averageClass)")
 }
 
 func assignmentAverage(){
@@ -147,6 +183,10 @@ func highestGrade(){
 }
 
 func filterByRange(){
+    
+}
+
+func changeGrade(){
     
 }
 
