@@ -20,7 +20,7 @@ var studentData : [Students] = []
 
 do{
     //input stream to get data from the grades.csv file
-    let stream = InputStream(fileAtPath: "/Users/studentsam/Desktop/grades.csv")
+    let stream = InputStream(fileAtPath: "/Users/studentam/Desktop/grades.csv")
     
     //creating a variable to grab the data from stream variable
     let csv = try CSVReader(stream: stream!)
@@ -162,12 +162,14 @@ func allStudentsGrades(){
 func averageClassGrade(){
     var numOfAssn : Double = 0.0
     var allGrades : Double = 0.0
+    var averageClass : Double = 0.0
     for student in studentData.indices{
         allGrades = studentData[student].averageGrades
         numOfAssn += 1
-        let averageClass = allGrades/numOfAssn
+        averageClass = allGrades/numOfAssn
+        print("The class average is: \(averageClass)")
     }
-    print("The class average is: \(averageClass)")
+    
 }
 
 func assignmentAverage(){
