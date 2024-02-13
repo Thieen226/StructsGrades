@@ -20,7 +20,7 @@ var studentData : [Students] = []
 
 do{
     //input stream to get data from the grades.csv file
-    let stream = InputStream(fileAtPath: "/Users/soigienglau/Desktop/grades.csv")
+    let stream = InputStream(fileAtPath: "/Users/studentsam/Desktop/grades.csv")
     
     //creating a variable to grab the data from stream variable
     let csv = try CSVReader(stream: stream!)
