@@ -72,6 +72,9 @@ func manageData( _ data: [String]){
 
 //create variable
 var disMenu : Bool = true
+var numOfStudent : Double = 0.0
+var allGrades : Double = 0.0
+var average : Double = 0.0
 
 while disMenu{
     print("Welcome to the Grade Manager! \n"
@@ -105,10 +108,10 @@ while disMenu{
             assignmentAverage()
             
         case "6":
-            lowestGrade()
+            gradeRank(lowest: true)
             
         case "7":
-            highestGrade()
+            gradeRank(lowest: false)
             
         case "8":
             filterByRange()
@@ -160,35 +163,60 @@ func allStudentsGrades(){
 }
 
 func averageClassGrade(){
-    var numOfAssn : Double = 0.0
-    var allGrades : Double = 0.0
-    var averageClass : Double = 0.0
     for student in studentData.indices{
         allGrades += studentData[student].averageGrades
-        numOfAssn += 1
+        numOfStudent += 1
         
     }
-    averageClass = allGrades/numOfAssn
-    print("The class average is: "  + String(format:"%.2f", averageClass))
+    average = allGrades/numOfStudent
+    print("The class average is: "  + String(format:"%.2f", average))
 }
 
 func assignmentAverage(){
+    //reset variable
+    numOfStudent = 0
+    allGrades = 0
+    average = 0
     print("Which assingment would you like to get the average of (1-10)")
-    if let userInput = readLine(), let assnInput = Int(userInput), assnInput > 1 && assnInput < 10{
-        
+    //I set assnInput < 10 because the last student only has 9 assingments
+    if let userInput = readLine(), let assnInput = Int(userInput), assnInput > 0, assnInput < 10{
+        for student in studentData.indices {
+            let assignmentIndex = studentData[student].grades[assnInput - 1]
+            allGrades += Double(assignmentIndex)!
+            numOfStudent += 1
+        }
+        average = allGrades/numOfStudent
+        print("The average for assignment #\(assnInput) is " + String(format: "%.2f", average))
+    }
+    else{
+        print("Please choose a correct assignment number")
     }
 }
 
-func lowestGrade(){
-    
-}
-
-func highestGrade(){
-    
+func gradeRank(lowest: Bool){
+    if let lowestStudent = studentData.min(by: {$0.averageGrades < $1.averageGrades}){
+        if lowest{
+            print("\(lowestStudent.name) is the student with the lowest grade: \(lowestStudent.averageGrades)")
+        }
+    }
+    if let highestStudent = studentData.max(by: {$0.averageGrades < $1.averageGrades}){
+        if !lowest{
+            print("\(highestStudent.name) is the student with the highest grade: \(highestStudent.averageGrades)")
+        }
+    }
 }
 
 func filterByRange(){
-    
+    print("Enter the low range you would like to use:")
+    if let userInput = readLine(), let lowRange = Double(userInput){
+        print("Enter the high range you would like to use:")
+        if let userInput = readLine(), let highRange = Double(userInput){
+            let gradeRange = studentData.filter({$0.averageGrades > lowRange && $0.averageGrades < highRange})
+            for student in gradeRange{
+                print("\(student.name): \(student.averageGrades)")
+            }
+        }
+    }
 }
 
 func changeGrade(){
