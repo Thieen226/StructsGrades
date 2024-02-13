@@ -164,16 +164,19 @@ func averageClassGrade(){
     var allGrades : Double = 0.0
     var averageClass : Double = 0.0
     for student in studentData.indices{
-        allGrades = studentData[student].averageGrades
+        allGrades += studentData[student].averageGrades
         numOfAssn += 1
-        averageClass = allGrades/numOfAssn
-        print("The class average is: \(averageClass)")
+        
     }
-    
+    averageClass = allGrades/numOfAssn
+    print("The class average is: "  + String(format:"%.2f", averageClass))
 }
 
 func assignmentAverage(){
-    
+    print("Which assingment would you like to get the average of (1-10)")
+    if let userInput = readLine(), let assnInput = Int(userInput), assnInput > 1 && assnInput < 10{
+        
+    }
 }
 
 func lowestGrade(){
