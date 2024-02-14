@@ -152,22 +152,32 @@ func disStudentGrades(showAverage: Bool){
         }
     }
     print("Student not found!")
+    return
 }
 
 func allStudentsGrades(){
+    //use for-in loop to access names and grades of students
     for student in studentData.indices{
         let allNames = studentData[student].name
+        //separate each grade with a comma and convert the array into string
         let allGrades = studentData[student].grades.joined(separator: ", ")
         print("\(allNames) grades are \(allGrades)")
     }
 }
 
 func averageClassGrade(){
+    //reset variable
+    numOfStudent = 0
+    allGrades = 0
+    average = 0
+    //use for-in loop to access all the average grades of students
+    //then add all the average grades together
     for student in studentData.indices{
         allGrades += studentData[student].averageGrades
         numOfStudent += 1
         
     }
+    //find average grade
     average = allGrades/numOfStudent
     print("The class average is: "  + String(format:"%.2f", average))
 }
@@ -177,10 +187,11 @@ func assignmentAverage(){
     numOfStudent = 0
     allGrades = 0
     average = 0
-    print("Which assingment would you like to get the average of (1-10)")
-    //I set assnInput < 10 because the last student only has 9 assingments
-    if let userInput = readLine(), let assnInput = Int(userInput), assnInput > 0, assnInput < 10{
+    print("Which assingment would you like to get the average of (1-10)?")
+    //careful when chosing assignment 10 because the last student only has 9 assignments
+    if let userInput = readLine(), let assnInput = Int(userInput), assnInput > 0, assnInput <= 10{
         for student in studentData.indices {
+            //access the grade inside the struct
             let assignmentIndex = studentData[student].grades[assnInput - 1]
             allGrades += Double(assignmentIndex)!
             numOfStudent += 1
@@ -189,7 +200,8 @@ func assignmentAverage(){
         print("The average for assignment #\(assnInput) is " + String(format: "%.2f", average))
     }
     else{
-        print("Please choose a correct assignment number")
+        print("Please choose a correct assignment number!")
+        return
     }
 }
 
@@ -216,11 +228,56 @@ func filterByRange(){
                 print("\(student.name): \(student.averageGrades)")
             }
         }
+        else{
+            print("Enter an appropriate range!")
+            return
+        }
     }
 }
 
 func changeGrade(){
-    
+    print("Which student would you like to choose?")
+    if let nameInput = readLine(){
+        for student in studentData.indices{
+            if nameInput.lowercased() == studentData[student].name.lowercased(){
+                print("Which assignment would you like to change the grade of (1-10)?")
+                if let userInput = readLine(), let assnChosen = Int(userInput), assnChosen > 0, assnChosen <= 10{
+                    if assnChosen <= studentData[student].grades.count{
+                        let studentName = studentData[student].name
+                        var studentGrade = studentData[student].grades[assnChosen - 1]
+                        print("Current grade for \(studentName) in assignment #\(assnChosen) is \(studentGrade)")
+                        print("Enter new grade: ")
+                        if let userInput = readLine(), let gradeInput = Double(userInput){
+                            studentGrade = String(gradeInput)
+                            studentData[student].grades[assnChosen - 1] = studentGrade
+                            allGrades = 0.0
+                            average = 0.0
+                            for grade in studentData[student].grades{
+                                if let gradeValue = Double(grade){
+                                    allGrades += gradeValue
+                                }
+                            }
+                            average = allGrades/Double(studentData[student].grades.count)
+                            studentData[student].averageGrades = average
+                            print("Grade for \(studentName) in assignment #\(assnChosen) is updated to \(studentGrade)")
+                        }
+                        else{
+                            print("Please enter an appropriate number!")
+                            return
+                        }
+                    }
+                }
+                else{
+                    print("Please enter an approprapriate number!")
+                    return
+                }
+            }
+        }
+    }
+    else{
+        print("Student not found!")
+        return
+    }
 }
 
 
