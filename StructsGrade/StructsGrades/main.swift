@@ -192,10 +192,12 @@ func assignmentAverage(){
     if let userInput = readLine(), let assnInput = Int(userInput), assnInput > 0, assnInput <= 10{
         for student in studentData.indices {
             //access the grade inside the struct
+            //index cannot be 10 since it will be out of bound
             let assignmentIndex = studentData[student].grades[assnInput - 1]
             allGrades += Double(assignmentIndex)!
             numOfStudent += 1
         }
+        //find average of the assignment
         average = allGrades/numOfStudent
         print("The average for assignment #\(assnInput) is " + String(format: "%.2f", average))
     }
@@ -206,11 +208,13 @@ func assignmentAverage(){
 }
 
 func gradeRank(lowest: Bool){
+    //use min to find the lowest average grade in the struct
     if let lowestStudent = studentData.min(by: {$0.averageGrades < $1.averageGrades}){
         if lowest{
             print("\(lowestStudent.name) is the student with the lowest grade: \(lowestStudent.averageGrades)")
         }
     }
+    //use max to find the highest average grade in the struct
     if let highestStudent = studentData.max(by: {$0.averageGrades < $1.averageGrades}){
         if !lowest{
             print("\(highestStudent.name) is the student with the highest grade: \(highestStudent.averageGrades)")
@@ -220,10 +224,14 @@ func gradeRank(lowest: Bool){
 
 func filterByRange(){
     print("Enter the low range you would like to use:")
+    //grab the low range input and convert it to double
     if let userInput = readLine(), let lowRange = Double(userInput){
         print("Enter the high range you would like to use:")
+         //grab the high range input and convert it to double
         if let userInput = readLine(), let highRange = Double(userInput){
+            //then use filter to find average grades within the range
             let gradeRange = studentData.filter({$0.averageGrades > lowRange && $0.averageGrades < highRange})
+            //then access the gradeRange variable to print the names and grades of students
             for student in gradeRange{
                 print("\(student.name): \(student.averageGrades)")
             }
@@ -236,20 +244,27 @@ func filterByRange(){
 }
 
 func changeGrade(){
+    //choose the student that need to change grade
     print("Which student would you like to choose?")
     if let nameInput = readLine(){
         for student in studentData.indices{
             if nameInput.lowercased() == studentData[student].name.lowercased(){
+                //then find which assignment to change grade
                 print("Which assignment would you like to change the grade of (1-10)?")
                 if let userInput = readLine(), let assnChosen = Int(userInput), assnChosen > 0, assnChosen <= 10{
+                    //use if to check whether the input is within the given range of assignment
                     if assnChosen <= studentData[student].grades.count{
+                        //create variables to store name and grade
                         let studentName = studentData[student].name
                         var studentGrade = studentData[student].grades[assnChosen - 1]
                         print("Current grade for \(studentName) in assignment #\(assnChosen) is \(studentGrade)")
                         print("Enter new grade: ")
+                        //grab the new grade input
                         if let userInput = readLine(), let gradeInput = Double(userInput){
                             studentGrade = String(gradeInput)
+                            //change the old grade to new grade
                             studentData[student].grades[assnChosen - 1] = studentGrade
+                            //calculate the new average
                             allGrades = 0.0
                             average = 0.0
                             for grade in studentData[student].grades{
@@ -257,6 +272,7 @@ func changeGrade(){
                                     allGrades += gradeValue
                                 }
                             }
+                            //divided allGrades by the number of grades
                             average = allGrades/Double(studentData[student].grades.count)
                             studentData[student].averageGrades = average
                             print("Grade for \(studentName) in assignment #\(assnChosen) is updated to \(studentGrade)")
