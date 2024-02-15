@@ -32,7 +32,7 @@ do{
     }
 }
 catch{
-    print("There was an error trrying to read the file!")
+    print("There was an error trying to read the file!")
 }
 
 func manageData( _ data: [String]){
@@ -229,11 +229,16 @@ func filterByRange(){
         print("Enter the high range you would like to use:")
          //grab the high range input and convert it to double
         if let userInput = readLine(), let highRange = Double(userInput){
-            //then use filter to find average grades within the range
-            let gradeRange = studentData.filter({$0.averageGrades > lowRange && $0.averageGrades < highRange})
-            //then access the gradeRange variable to print the names and grades of students
-            for student in gradeRange{
-                print("\(student.name): \(student.averageGrades)")
+            if highRange < lowRange{
+                print("Higher range cannot be smaller than lower range!")
+            }
+            else{
+                //then use filter to find average grades within the range
+                let gradeRange = studentData.filter({$0.averageGrades > lowRange && $0.averageGrades < highRange})
+                //then access the gradeRange variable to print the names and grades of students
+                for student in gradeRange{
+                    print("\(student.name): \(student.averageGrades)")
+                }
             }
         }
         else{
@@ -261,9 +266,9 @@ func changeGrade(){
                         print("Enter new grade: ")
                         //grab the new grade input
                         if let userInput = readLine(), let gradeInput = Double(userInput){
-                            studentGrade = String(gradeInput)
+                            
                             //change the old grade to new grade
-                            studentData[student].grades[assnChosen - 1] = studentGrade
+                            studentData[student].grades[assnChosen - 1] = String(gradeInput)
                             //calculate the new average
                             allGrades = 0.0
                             average = 0.0
@@ -275,7 +280,7 @@ func changeGrade(){
                             //divided allGrades by the number of grades
                             average = allGrades/Double(studentData[student].grades.count)
                             studentData[student].averageGrades = average
-                            print("Grade for \(studentName) in assignment #\(assnChosen) is updated to \(studentGrade)")
+                            print("Grade for \(studentName) in assignment #\(assnChosen) is updated to \(gradeInput)")
                         }
                         else{
                             print("Please enter an appropriate number!")
